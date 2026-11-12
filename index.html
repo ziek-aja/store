@@ -392,10 +392,6 @@ footer{border-top:1px solid var(--line);padding:28px 0 36px;background:var(--sur
         <svg class="wa-ico" viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm0 18a8 8 0 0 1-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1 1 12 20z"/></svg>
         Chat Admin
       </a>
-              <a class="btn btn-ghost" id="heroIg" target="_blank" rel="noopener" style="display:none;">
-          <svg viewBox="0 0 24 24" style="width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1" fill="currentColor" stroke="none"/></svg>
-          DM Instagram
-        </a>
     </div>
   </div>
 </header>
@@ -410,6 +406,10 @@ footer{border-top:1px solid var(--line);padding:28px 0 36px;background:var(--sur
         <a class="btn btn-dark" id="heroWa" target="_blank" rel="noopener">
           <svg class="wa-ico" viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm0 18a8 8 0 0 1-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1 1 12 20z"/></svg>
           Tanya Stok
+        </a>
+        <a class="btn btn-ghost" id="heroIg" target="_blank" rel="noopener" style="display:none;">
+          <svg viewBox="0 0 24 24" style="width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1" fill="currentColor" stroke="none"/></svg>
+          DM Instagram
         </a>
         <a class="btn btn-ghost" href="#katalog">Lihat Katalog</a>
       </div>
@@ -817,6 +817,11 @@ function openDetail(id){
             '<svg class="wa-ico" viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm0 18a8 8 0 0 1-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1 1 12 20z"/></svg>' +
             "Pesan via WhatsApp" +
           "</a>" +
+          ' + (data.settings.instagram ? 
+          '<a class="btn btn-ghost" href="https://instagram.com/' + data.settings.instagram + '" target="_blank" rel="noopener" style="margin-top:4px;">' +
+            '<svg viewBox="0 0 24 24" style="width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1" fill="currentColor" stroke="none"/></svg>' +
+            'Tanya via Instagram' +
+          '</a>' : '') + 
           '<span class="detail-note">Tanyakan ketersediaan &amp; minta foto real unit sebelum deal.</span>' +
         "</div>" +
       "</div>" +
