@@ -1,0 +1,1396 @@
+<!-- admin.html — Panel Admin (terpisah dari toko) -->
+<!doctype html>
+<html lang="id" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Admin — ZIEKAJA Store</title>
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#09090b" media="(prefers-color-scheme: dark)">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<style>
+:root{
+  --bg:#fafafa; --surface:#fff; --surface-2:#f4f4f5; --surface-3:#e4e4e7;
+  --ink:#09090b; --ink-2:#52525b; --muted:#a1a1aa;
+  --line:#e4e4e7; --line-2:#d4d4d8;
+  --btn:#09090b; --btn-ink:#fff;
+  --wa:#25d366; --wa-ink:#04321a; --ok:#16a34a; --warn:#f59e0b; --err:#dc2626;
+  --r:12px;
+  --sh-1:0 1px 2px rgba(9,9,11,.04);
+  --sh-2:0 1px 3px rgba(9,9,11,.06),0 8px 24px -12px rgba(9,9,11,.18);
+  --sh-3:0 2px 6px rgba(9,9,11,.06),0 24px 48px -24px rgba(9,9,11,.28);
+  --ease:cubic-bezier(.22,1,.36,1);
+  color-scheme:light;
+}
+html[data-theme="dark"]{
+  --bg:#09090b; --surface:#18181b; --surface-2:#27272a; --surface-3:#3f3f46;
+  --ink:#fafafa; --ink-2:#d4d4d8; --muted:#71717a;
+  --line:#27272a; --line-2:#3f3f46;
+  --btn:#fafafa; --btn-ink:#09090b;
+  --sh-1:0 1px 2px rgba(0,0,0,.5);
+  --sh-2:0 1px 3px rgba(0,0,0,.4),0 8px 24px -12px rgba(0,0,0,.8);
+  --sh-3:0 2px 6px rgba(0,0,0,.5),0 24px 48px -24px rgba(0,0,0,1);
+  color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font:15px/1.55 "Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  -webkit-font-smoothing:antialiased;
+  transition:background-color .3s var(--ease),color .3s var(--ease);
+}
+img,svg{display:block;max-width:100%}
+button{font:inherit;color:inherit;border:0;background:none;cursor:pointer;-webkit-tap-highlight-color:transparent}
+a{color:inherit;text-decoration:none}
+input,select,textarea{font:inherit;color:inherit}
+h1,h2,h3{margin:0;line-height:1.2;letter-spacing:-.02em;font-weight:700}
+:focus-visible{outline:2px solid var(--ink);outline-offset:2px;border-radius:6px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 max(16px,env(safe-area-inset-left,0px)) 0 max(16px,env(safe-area-inset-right,0px))}
+
+/* BUTTONS */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:7px;
+  height:40px;padding:0 16px;border-radius:8px;
+  font-weight:600;font-size:13.5px;
+  transition:transform .16s var(--ease),background-color .2s,opacity .2s;
+  white-space:nowrap;
+}
+.btn:active{transform:scale(.97)}
+.btn-primary{background:var(--btn);color:var(--btn-ink)}
+.btn-primary:hover{opacity:.9}
+.btn-ghost{background:var(--surface);color:var(--ink);border:1px solid var(--line-2)}
+.btn-ghost:hover{background:var(--surface-2)}
+.btn-danger{background:transparent;color:var(--err);border:1px solid color-mix(in srgb,var(--err) 30%,transparent)}
+.btn-danger:hover{background:color-mix(in srgb,var(--err) 8%,transparent)}
+.btn-sm{height:34px;padding:0 12px;font-size:12.5px;border-radius:7px}
+.btn svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+
+/* AUTH */
+.auth{min-height:100dvh;display:grid;place-items:center;padding:24px}
+.auth-card{
+  width:100%;max-width:400px;background:var(--surface);
+  border:1px solid var(--line);border-radius:16px;
+  padding:32px 28px;box-shadow:var(--sh-2);
+}
+.auth-brand{display:flex;align-items:center;gap:10px;margin-bottom:22px}
+.auth-mark{
+  width:38px;height:38px;border-radius:10px;background:var(--ink);color:var(--bg);
+  display:grid;place-items:center;font-weight:800;font-size:16px;
+}
+.auth-brand b{display:block;font-size:16px;font-weight:700;letter-spacing:-.02em}
+.auth-brand small{display:block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-top:2px}
+.auth h1{font-size:22px;margin-bottom:6px;letter-spacing:-.025em}
+.auth p{color:var(--muted);font-size:13.5px;margin:0 0 22px;line-height:1.5}
+.field{display:grid;gap:6px;margin-bottom:14px}
+.field label{font-size:12px;font-weight:600;color:var(--ink-2);letter-spacing:.02em}
+.field input,.field select,.field textarea{
+  width:100%;height:42px;border-radius:8px;
+  border:1px solid var(--line-2);background:var(--surface);
+  padding:0 12px;font-size:14px;
+  transition:border-color .2s,box-shadow .2s;
+}
+.field textarea{height:auto;min-height:80px;padding:10px 12px;resize:vertical;line-height:1.55}
+.field input:focus,.field select:focus,.field textarea:focus{
+  outline:none;border-color:var(--ink);box-shadow:0 0 0 4px color-mix(in srgb,var(--ink) 8%,transparent);
+}
+.auth-error{
+  background:color-mix(in srgb,var(--err) 10%,transparent);
+  color:var(--err);border:1px solid color-mix(in srgb,var(--err) 25%,transparent);
+  border-radius:8px;padding:10px 12px;font-size:12.5px;font-weight:500;
+  margin-bottom:12px;display:none;
+}
+.auth-error.show{display:block}
+.auth-hint{
+  margin-top:16px;padding-top:16px;border-top:1px dashed var(--line-2);
+  font-size:11.5px;color:var(--muted);line-height:1.5;text-align:center;
+}
+.auth-hint code{
+  background:var(--surface-2);padding:2px 6px;border-radius:4px;
+  font-family:ui-monospace,monospace;font-size:11px;color:var(--ink);
+}
+
+/* APP */
+.app{display:none;min-height:100dvh}
+.app.on{display:block}
+.topbar{
+  position:sticky;top:0;z-index:50;
+  background:color-mix(in srgb,var(--bg) 85%,transparent);
+  backdrop-filter:saturate(1.6) blur(16px);
+  -webkit-backdrop-filter:saturate(1.6) blur(16px);
+  border-bottom:1px solid var(--line);
+}
+.topbar-in{display:flex;align-items:center;justify-content:space-between;gap:12px;height:58px}
+.topbar-brand{display:flex;align-items:center;gap:9px;min-width:0}
+.topbar-mark{
+  width:30px;height:30px;border-radius:8px;background:var(--ink);color:var(--bg);
+  display:grid;place-items:center;font-weight:800;font-size:13.5px;flex:none;
+}
+.topbar-brand b{font-size:14px;font-weight:700;letter-spacing:-.02em;display:block;line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.topbar-brand small{display:block;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-top:1px}
+.topbar-actions{display:flex;align-items:center;gap:6px}
+.save-ind{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:11.5px;font-weight:600;color:var(--muted);
+  padding:5px 10px;border-radius:6px;background:var(--surface-2);
+}
+.save-ind .dot{width:6px;height:6px;border-radius:50%;background:var(--ok);flex:none}
+.save-ind.saving .dot{background:var(--warn);animation:pulse 1s infinite}
+@keyframes pulse{50%{opacity:.4}}
+@media(max-width:520px){
+  .topbar-actions .hide-m{display:none}
+  .save-ind span:not(.dot){display:none}
+}
+
+/* TABS */
+.tabs{
+  display:flex;gap:4px;padding:16px 0 0;border-bottom:1px solid var(--line);
+  position:sticky;top:58px;z-index:40;
+  background:var(--bg);
+}
+.tab{
+  padding:10px 16px;font-size:13.5px;font-weight:600;
+  color:var(--muted);border-bottom:2px solid transparent;
+  margin-bottom:-1px;transition:color .2s,border-color .2s;
+}
+.tab:hover{color:var(--ink-2)}
+.tab.on{color:var(--ink);border-bottom-color:var(--ink)}
+
+/* SECTION */
+.section{padding:20px 0 60px}
+.section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+.section-head h2{font-size:18px;font-weight:700;letter-spacing:-.025em}
+.section-head p{margin:4px 0 0;color:var(--muted);font-size:12.5px}
+
+/* PRODUCTS */
+.prod-list{display:flex;flex-direction:column;gap:10px}
+.prod{
+  display:grid;grid-template-columns:56px 1fr auto;gap:12px;
+  align-items:center;padding:12px;
+  background:var(--surface);border:1px solid var(--line);
+  border-radius:12px;transition:border-color .2s,box-shadow .2s;
+}
+.prod:hover{border-color:var(--line-2);box-shadow:var(--sh-1)}
+.prod.is-sold{opacity:.72}
+.prod-thumb{
+  width:56px;height:56px;border-radius:8px;
+  background:linear-gradient(165deg,var(--surface-2),var(--surface));
+  border:1px solid var(--line);display:grid;place-items:center;
+  padding:6px;flex:none;overflow:hidden;
+}
+.prod-thumb svg{width:100%;height:100%}
+.prod-thumb.has-photo{padding:0;background:var(--surface-2)}
+.prod-thumb.has-photo img{width:100%;height:100%;object-fit:cover;display:block}
+.prod.is-sold .prod-thumb svg,
+.prod.is-sold .prod-thumb.has-photo img{filter:grayscale(1)}
+.prod-info{min-width:0;display:flex;flex-direction:column;gap:2px}
+.prod-info b{font-size:14px;font-weight:600;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.prod-info small{font-size:11.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.prod-price{font-size:13px;font-weight:700;margin-top:2px}
+.prod-price.sold{color:var(--muted);text-decoration:line-through}
+.prod-actions{display:flex;align-items:center;gap:6px;flex:none}
+.toggle{
+  position:relative;width:40px;height:22px;border-radius:999px;
+  background:var(--surface-3);transition:background-color .2s;flex:none;
+}
+.toggle::after{
+  content:"";position:absolute;top:2px;left:2px;
+  width:18px;height:18px;border-radius:50%;background:#fff;
+  box-shadow:0 1px 2px rgba(0,0,0,.2);
+  transition:transform .2s var(--ease);
+}
+.toggle.on{background:var(--ok)}
+.toggle.on::after{transform:translateX(18px)}
+.icon-mini{
+  width:34px;height:34px;border-radius:7px;
+  background:var(--surface);border:1px solid var(--line-2);
+  display:grid;place-items:center;flex:none;
+  transition:background-color .2s,color .2s;
+}
+.icon-mini:hover{background:var(--surface-2)}
+.icon-mini.del{color:var(--err)}
+.icon-mini.del:hover{background:color-mix(in srgb,var(--err) 8%,transparent);border-color:color-mix(in srgb,var(--err) 30%,transparent)}
+.icon-mini svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+@media(max-width:520px){
+  .prod{grid-template-columns:48px 1fr;gap:10px}
+  .prod-thumb{width:48px;height:48px}
+  .prod-actions{grid-column:1/-1;justify-content:flex-end;padding-top:6px;border-top:1px dashed var(--line)}
+  .prod-actions .toggle{order:-1;margin-right:auto}
+}
+
+/* EMPTY */
+.empty-state{
+  text-align:center;padding:50px 20px;color:var(--muted);
+  border:1px dashed var(--line-2);border-radius:12px;
+}
+.empty-state b{display:block;color:var(--ink);font-size:15px;margin-bottom:6px;font-weight:600}
+.empty-state p{font-size:13px;margin:0 0 16px}
+
+/* SETTINGS */
+.panel{
+  background:var(--surface);border:1px solid var(--line);
+  border-radius:12px;padding:18px;margin-bottom:14px;
+}
+.panel h3{font-size:14.5px;font-weight:700;margin-bottom:4px;letter-spacing:-.015em}
+.panel > p{color:var(--muted);font-size:12.5px;margin:0 0 16px;line-height:1.5}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:520px){.grid-2{grid-template-columns:1fr}}
+.switch-row{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:12px 0;border-top:1px dashed var(--line);
+}
+.switch-row:first-of-type{border-top:0;padding-top:0}
+.switch-row:last-child{padding-bottom:0}
+.switch-row .label strong{display:block;font-size:13.5px;font-weight:600}
+.switch-row .label small{display:block;font-size:11.5px;color:var(--muted);margin-top:2px;line-height:1.4}
+
+.status-pill{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:5px 10px;border-radius:999px;font-size:11.5px;font-weight:600;
+  background:var(--surface-2);color:var(--ink-2);
+}
+.status-pill.on{background:color-mix(in srgb,var(--ok) 12%,transparent);color:var(--ok)}
+.status-pill .dot{width:6px;height:6px;border-radius:50%;background:currentColor}
+
+.code-block{
+  background:var(--surface-2);border:1px solid var(--line);
+  border-radius:8px;padding:12px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  font-size:11.5px;line-height:1.6;color:var(--ink-2);
+  overflow-x:auto;white-space:pre;
+}
+
+/* FOTO EDITOR di form */
+.photo-editor{
+  display:grid;grid-template-columns:120px 1fr;gap:14px;align-items:start;
+  padding:12px;border:1px dashed var(--line-2);border-radius:10px;
+  background:var(--surface-2);
+}
+.photo-preview{
+  width:120px;aspect-ratio:4/5;border-radius:8px;overflow:hidden;
+  background:linear-gradient(165deg,var(--surface) 0%,var(--surface-2) 100%);
+  border:1px solid var(--line-2);display:grid;place-items:center;
+  padding:8px;flex:none;
+}
+.photo-preview img{width:100%;height:100%;object-fit:cover;display:block;border-radius:6px}
+.photo-preview svg{width:100%;height:100%}
+.photo-actions{display:flex;flex-direction:column;gap:8px;min-width:0}
+.photo-actions small{font-size:11.5px;color:var(--muted);line-height:1.5}
+.photo-actions .row{display:flex;gap:6px;flex-wrap:wrap}
+@media(max-width:520px){
+  .photo-editor{grid-template-columns:96px 1fr;gap:10px}
+  .photo-preview{width:96px}
+}
+
+/* MODAL */
+.modal{
+  position:fixed;inset:0;z-index:120;
+  display:flex;align-items:center;justify-content:center;padding:20px;
+  background:rgba(8,8,12,.55);
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  opacity:0;pointer-events:none;transition:opacity .25s var(--ease);
+}
+.modal.open{opacity:1;pointer-events:auto}
+.modal-card{
+  background:var(--surface);border-radius:16px;
+  width:min(560px,100%);max-height:calc(100dvh - 40px);
+  overflow:auto;-webkit-overflow-scrolling:touch;
+  box-shadow:0 40px 100px -30px rgba(0,0,0,.5);
+  transform:translateY(14px) scale(.985);
+  transition:transform .3s var(--ease);
+  overscroll-behavior:contain;
+}
+.modal.open .modal-card{transform:none}
+.modal-head{
+  position:sticky;top:0;z-index:2;
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:16px 20px;border-bottom:1px solid var(--line);
+  background:var(--surface);border-radius:16px 16px 0 0;
+}
+.modal-head h2{font-size:16px;font-weight:700;letter-spacing:-.02em}
+.modal-body{padding:20px}
+.modal-foot{
+  position:sticky;bottom:0;z-index:2;
+  display:flex;gap:8px;justify-content:flex-end;
+  padding:14px 20px;border-top:1px solid var(--line);
+  background:var(--surface);border-radius:0 0 16px 16px;
+}
+@media(max-width:520px){
+  .modal{padding:0;align-items:flex-end}
+  .modal-card{border-radius:16px 16px 0 0;max-height:92dvh;width:100%}
+  .modal-head{border-radius:16px 16px 0 0}
+  .modal-foot{border-radius:0;padding-bottom:calc(14px + env(safe-area-inset-bottom,0px))}
+  .modal-foot .btn{flex:1}
+}
+
+/* TOAST */
+.toast{
+  position:fixed;left:50%;bottom:24px;z-index:300;
+  transform:translate(-50%,140%);
+  background:var(--ink);color:var(--bg);
+  padding:11px 20px;border-radius:999px;
+  font-size:13px;font-weight:600;box-shadow:var(--sh-3);
+  transition:transform .35s var(--ease);
+  pointer-events:none;max-width:calc(100vw - 32px);text-align:center;
+}
+.toast.show{transform:translate(-50%,0)}
+.toast.err{background:var(--err);color:#fff}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<section class="auth" id="authScreen">
+  <div class="auth-card">
+    <div class="auth-brand">
+      <span class="auth-mark">Z</span>
+      <div><b>ZIEKAJA</b><small>Admin Panel</small></div>
+    </div>
+    <h1>Masuk sebagai admin</h1>
+    <p>Kelola katalog, foto, harga, dan status stok iPhone.</p>
+    <div class="auth-error" id="authErr"></div>
+    <form id="loginForm" autocomplete="off">
+      <div class="field">
+        <label for="pass">Password admin</label>
+        <input type="password" id="pass" required autocomplete="current-password" placeholder="Masukkan password">
+      </div>
+      <button class="btn btn-primary" type="submit" style="width:100%;height:44px">
+        <svg viewBox="0 0 24 24"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3"/></svg>
+        Masuk
+      </button>
+    </form>
+    <div class="auth-hint">
+      Password default: <code>admin123</code><br>
+      Bisa diganti dari menu <b>Pengaturan</b> setelah masuk.
+    </div>
+  </div>
+</section>
+
+<!-- APP -->
+<div class="app" id="app">
+  <header class="topbar">
+    <div class="wrap topbar-in">
+      <div class="topbar-brand">
+        <span class="topbar-mark">Z</span>
+        <div><b>ZIEKAJA Admin</b><small>Kelola katalog iPhone</small></div>
+      </div>
+      <div class="topbar-actions">
+        <span class="save-ind" id="saveInd"><span class="dot"></span><span>Tersimpan</span></span>
+        <button class="btn btn-ghost btn-sm hide-m" id="exportBtn" title="Backup semua data ke file JSON">
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+          Export
+        </button>
+        <button class="btn btn-ghost btn-sm hide-m" id="importBtn" title="Pulihkan data dari file JSON">
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+          Import
+        </button>
+        <a class="btn btn-ghost btn-sm" href="index.html" target="_blank" title="Buka toko">
+          <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+          <span class="hide-m">Lihat Toko</span>
+        </a>
+        <button class="btn btn-ghost btn-sm" id="logoutBtn" title="Keluar">
+          <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <nav class="tabs">
+      <button class="tab on" data-tab="produk">Produk</button>
+      <button class="tab" data-tab="pengaturan">Pengaturan</button>
+    </nav>
+
+    <!-- PRODUK -->
+    <section class="section" id="tabProduk">
+      <div class="section-head">
+        <div>
+          <h2>Daftar iPhone</h2>
+          <p id="prodInfo">—</p>
+        </div>
+        <button class="btn btn-primary" id="addBtn">
+          <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+          Tambah iPhone
+        </button>
+      </div>
+      <div class="prod-list" id="prodList"></div>
+    </section>
+
+    <!-- PENGATURAN -->
+    <section class="section" id="tabPengaturan" style="display:none">
+
+      <div class="panel">
+        <h3>Info Toko</h3>
+        <p>Ditampilkan di halaman toko dan pesan WhatsApp.</p>
+        <div class="grid-2">
+          <div class="field">
+            <label>Nama toko</label>
+            <input id="setStore" type="text" placeholder="ZIEKAJA">
+          </div>
+          <div class="field">
+            <label>Nomor WhatsApp</label>
+            <input id="setWa" type="tel" placeholder="628xxxxxxxxxx">
+          </div>
+        </div>
+        <div class="field">
+          <label>Instagram (username, tanpa @)</label>
+          <input id="setIg" type="text" placeholder="zyie.png">
+        </div>
+        <button class="btn btn-primary btn-sm" id="saveSettings">Simpan Info Toko</button>
+      </div>
+
+      <div class="panel">
+        <h3>Status Stok</h3>
+        <p>Atur perilaku produk yang sudah habis.</p>
+        <div class="switch-row">
+          <div class="label">
+            <strong>Fitur Sold Out aktif</strong>
+            <small>Saat aktif, produk yang ditandai sold out akan tampil abu-abu dan tidak bisa diklik pembeli.</small>
+          </div>
+          <button class="toggle" id="toggleSoldFeature" aria-label="Toggle fitur sold out"></button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3>Ubah Password Admin</h3>
+        <p>Ganti password login admin. Minimal 6 karakter.</p>
+        <div class="grid-2">
+          <div class="field">
+            <label>Password lama</label>
+            <input id="oldPass" type="password" autocomplete="current-password">
+          </div>
+          <div class="field">
+            <label>Password baru</label>
+            <input id="newPass" type="password" autocomplete="new-password">
+          </div>
+        </div>
+        <button class="btn btn-primary btn-sm" id="changePass">Ubah Password</button>
+      </div>
+
+      <div class="panel">
+        <h3>Koneksi &amp; Backup</h3>
+        <p id="cloudStatus"></p>
+        <div class="code-block" id="cloudCode"></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
+          <button class="btn btn-ghost btn-sm" id="exportBtn2">
+            <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+            Export JSON
+          </button>
+          <button class="btn btn-ghost btn-sm" id="importBtn2">
+            <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+            Import JSON
+          </button>
+          <button class="btn btn-danger btn-sm" id="resetBtn">
+            <svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8M3 3v5h5"/></svg>
+            Reset ke Default
+          </button>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- MODAL EDIT PRODUK -->
+<div class="modal" id="editModal" aria-hidden="true">
+  <div class="modal-card" role="dialog" aria-modal="true">
+    <div class="modal-head">
+      <h2 id="editTitle">Tambah iPhone</h2>
+      <button class="icon-mini" id="editClose" aria-label="Tutup">
+        <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form id="editForm" autocomplete="off">
+        <input type="hidden" id="fId">
+
+        <!-- FOTO PRODUK -->
+        <div class="field">
+          <label>Foto Produk</label>
+          <div class="photo-editor">
+            <div class="photo-preview" id="photoPreview"></div>
+            <div class="photo-actions">
+              <div class="row">
+                <button type="button" class="btn btn-ghost btn-sm" id="pickPhoto">
+                  <svg viewBox="0 0 24 24"><path d="M21 15V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10M16 13l-4 4-3-3-3 3M21 15l-5-5"/></svg>
+                  Pilih Foto
+                </button>
+                <button type="button" class="btn btn-danger btn-sm" id="clearPhoto">
+                  <svg viewBox="0 0 24 24"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>
+                  Hapus
+                </button>
+              </div>
+              <small>JPG/PNG · otomatis dikompres. Kalau kosong, pakai ilustrasi iPhone.</small>
+            </div>
+          </div>
+          <input type="file" id="photoFile" accept="image/*" style="display:none">
+        </div>
+
+        <div class="field">
+          <label for="fModel">Model iPhone</label>
+          <select id="fModel" required></select>
+        </div>
+        <div class="grid-2">
+          <div class="field">
+            <label for="fSeries">Seri</label>
+            <input id="fSeries" type="text" readonly style="background:var(--surface-2)">
+          </div>
+          <div class="field">
+            <label for="fStorage">Storage</label>
+            <select id="fStorage">
+              <option>64 GB</option><option>128 GB</option><option>256 GB</option>
+              <option>512 GB</option><option>1 TB</option>
+            </select>
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="field">
+            <label for="fColor">Warna</label>
+            <input id="fColor" list="colorList" placeholder="Midnight">
+            <datalist id="colorList"></datalist>
+          </div>
+          <div class="field">
+            <label for="fCond">Kondisi</label>
+            <select id="fCond">
+              <option value="Like New">Like New</option>
+              <option value="Good">Good</option>
+              <option value="Fair">Fair</option>
+            </select>
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="field">
+            <label for="fBatt">Baterai</label>
+            <input id="fBatt" placeholder="92% atau Sehat">
+          </div>
+          <div class="field">
+            <label for="fPrice">Harga (Rp)</label>
+            <input id="fPrice" type="number" min="0" step="1000" placeholder="6499000" required>
+          </div>
+        </div>
+        <div class="field">
+          <label for="fComplete">Kelengkapan</label>
+          <input id="fComplete" placeholder="Fullset Box + Kabel">
+        </div>
+        <div class="grid-2">
+          <div class="field">
+            <label for="fWarranty">Garansi</label>
+            <input id="fWarranty" placeholder="Garansi toko 30 hari">
+          </div>
+          <div class="field">
+            <label for="fLoc">Lokasi</label>
+            <input id="fLoc" placeholder="Semarang">
+          </div>
+        </div>
+        <div class="field">
+          <label for="fBadge">Badge (opsional)</label>
+          <input id="fBadge" placeholder="Best Seller / Mulus / dll">
+        </div>
+        <div class="field">
+          <label for="fDesc">Deskripsi</label>
+          <textarea id="fDesc" placeholder="Ceritakan kondisi unit: minus, kelengkapan, dll"></textarea>
+        </div>
+        <div class="switch-row">
+          <div class="label">
+            <strong>Tandai Sold Out</strong>
+            <small>Produk akan tampil abu-abu dan tidak bisa diklik pembeli.</small>
+          </div>
+          <button type="button" class="toggle" id="fSold"></button>
+        </div>
+      </form>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" id="editCancel">Batal</button>
+      <button class="btn btn-primary" id="editSave">Simpan</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL KONFIRMASI -->
+<div class="modal" id="confirmModal" aria-hidden="true">
+  <div class="modal-card" style="max-width:420px" role="dialog" aria-modal="true">
+    <div class="modal-head">
+      <h2 id="confirmTitle">Konfirmasi</h2>
+    </div>
+    <div class="modal-body">
+      <p id="confirmMsg" style="margin:0;color:var(--ink-2);font-size:14px;line-height:1.6"></p>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" id="confirmNo">Batal</button>
+      <button class="btn btn-danger" id="confirmYes">Hapus</button>
+    </div>
+  </div>
+</div>
+
+<input type="file" id="importFile" accept="application/json,.json" style="display:none">
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+"use strict";
+
+/* =========================================================
+   ⚙️  KONFIGURASI — HARUS SAMA dengan index.html
+   ========================================================= */
+const CLOUD = {
+  enabled: false,
+  url: "",
+  path: "/ziekaja/store.json"
+};
+
+const STORE_KEY = "ziekaja_store_v2";
+const THEME_KEY = "ziekaja_theme";
+const PASS_KEY  = "ziekaja_admin_pass";
+const SESS_KEY  = "ziekaja_admin_session";
+const DEFAULT_PASS = "admin123";
+
+/* =========================================================
+   MODEL iPhone
+   ========================================================= */
+const MODELS = [
+  { m:"iPhone 16 Pro Max", s:"iPhone 16" },
+  { m:"iPhone 16 Pro",     s:"iPhone 16" },
+  { m:"iPhone 16 Plus",    s:"iPhone 16" },
+  { m:"iPhone 16",         s:"iPhone 16" },
+  { m:"iPhone 16e",        s:"iPhone 16" },
+  { m:"iPhone 15 Pro Max", s:"iPhone 15" },
+  { m:"iPhone 15 Pro",     s:"iPhone 15" },
+  { m:"iPhone 15 Plus",    s:"iPhone 15" },
+  { m:"iPhone 15",         s:"iPhone 15" },
+  { m:"iPhone 14 Pro Max", s:"iPhone 14" },
+  { m:"iPhone 14 Pro",     s:"iPhone 14" },
+  { m:"iPhone 14 Plus",    s:"iPhone 14" },
+  { m:"iPhone 14",         s:"iPhone 14" },
+  { m:"iPhone 13 Pro Max", s:"iPhone 13" },
+  { m:"iPhone 13 Pro",     s:"iPhone 13" },
+  { m:"iPhone 13 mini",    s:"iPhone 13" },
+  { m:"iPhone 13",         s:"iPhone 13" },
+  { m:"iPhone 12 Pro Max", s:"iPhone 12" },
+  { m:"iPhone 12 Pro",     s:"iPhone 12" },
+  { m:"iPhone 12 mini",    s:"iPhone 12" },
+  { m:"iPhone 12",         s:"iPhone 12" },
+  { m:"iPhone 11 Pro Max", s:"iPhone 11" },
+  { m:"iPhone 11 Pro",     s:"iPhone 11" },
+  { m:"iPhone 11",         s:"iPhone 11" },
+  { m:"iPhone XS Max",     s:"iPhone X" },
+  { m:"iPhone XS",         s:"iPhone X" },
+  { m:"iPhone XR",         s:"iPhone X" },
+  { m:"iPhone X",          s:"iPhone X" },
+  { m:"iPhone SE 3",       s:"iPhone SE" },
+  { m:"iPhone SE 2",       s:"iPhone SE" }
+];
+
+const COLORS = ["Natural Titanium","Blue Titanium","White Titanium","Black Titanium","Desert Titanium",
+  "Midnight","Starlight","Blue","Pink","Green","Red","Purple","Yellow","Black","White","Teal","Ultramarine"];
+
+/* =========================================================
+   COLOR MAP (sama dengan index.html)
+   ========================================================= */
+const COLOR_MAP = {
+  "Natural Titanium":["#c9c2b4","#9c9484"],
+  "Blue Titanium":["#5b6b7c","#3d4a58"],
+  "White Titanium":["#dcd9d3","#bab6ae"],
+  "Black Titanium":["#4a4a4e","#2b2c2f"],
+  "Desert Titanium":["#c3a482","#9b7c5a"],
+  "Midnight":["#2e3035","#191b1f"],
+  "Starlight":["#e6e1d7","#c8c2b5"],
+  "Blue":["#9bb4d1","#718baa"],
+  "Pink":["#f1c9cd","#d4a3a8"],
+  "Green":["#b9cdb4","#8ea889"],
+  "Red":["#c9474b","#9a3134"],
+  "Purple":["#7b6e96","#5b4f74"],
+  "Yellow":["#f1da78","#c9b348"],
+  "Black":["#3b3c3f","#1e1f22"],
+  "White":["#ecebe7","#cbc8c2"],
+  "Teal":["#8fb8b3","#6a938d"],
+  "Ultramarine":["#6b7ed4","#4b5ca8"],
+  "_default":["#b6b6bc","#8c8c93"]
+};
+
+const DYNAMIC_ISLAND = ["iPhone 14 Pro","iPhone 14 Pro Max","iPhone 15","iPhone 15 Plus",
+  "iPhone 15 Pro","iPhone 15 Pro Max","iPhone 16","iPhone 16 Plus","iPhone 16 Pro",
+  "iPhone 16 Pro Max","iPhone 16e"];
+
+function hasIsland(model){
+  return DYNAMIC_ISLAND.some(m => model === m || model.indexOf(m + " ") === 0);
+}
+
+function phoneSVG(color, model){
+  const c = COLOR_MAP[color] || COLOR_MAP._default;
+  const id = "p" + Math.random().toString(36).slice(2, 8);
+  const island = hasIsland(model);
+  return `<svg viewBox="0 0 200 380" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="width:100%;height:100%;display:block">
+    <defs>
+      <linearGradient id="${id}f" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="${c[0]}"/><stop offset=".5" stop-color="${c[0]}"/><stop offset="1" stop-color="${c[1]}"/>
+      </linearGradient>
+      <linearGradient id="${id}s" x1=".3" y1="0" x2=".7" y2="1">
+        <stop offset="0" stop-color="#1e2438"/><stop offset="1" stop-color="#06070b"/>
+      </linearGradient>
+    </defs>
+    <rect x="16" y="84" width="4" height="26" rx="2" fill="${c[1]}"/>
+    <rect x="16" y="122" width="4" height="42" rx="2" fill="${c[1]}"/>
+    <rect x="16" y="172" width="4" height="42" rx="2" fill="${c[1]}"/>
+    <rect x="180" y="126" width="4" height="58" rx="2" fill="${c[1]}"/>
+    <rect x="18" y="10" width="164" height="360" rx="42" fill="url(#${id}f)"/>
+    <rect x="25" y="17" width="150" height="346" rx="36" fill="#0a0a0f"/>
+    <rect x="29" y="21" width="142" height="338" rx="32" fill="url(#${id}s)"/>
+    ${island
+      ? '<rect x="78" y="38" width="44" height="15" rx="7.5" fill="#000"/>'
+      : '<rect x="74" y="36" width="52" height="17" rx="8.5" fill="#000"/>'}
+    <rect x="72" y="343" width="56" height="4" rx="2" fill="#fff" opacity=".38"/>
+  </svg>`;
+}
+
+/* =========================================================
+   UTIL
+   ========================================================= */
+const $ = (s, el) => (el || document).querySelector(s);
+const $$ = (s, el) => Array.prototype.slice.call((el || document).querySelectorAll(s));
+const fmt = n => "Rp " + Number(n).toLocaleString("id-ID");
+const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const uid = () => Math.random().toString(36).slice(2, 9);
+
+/* =========================================================
+   STATE
+   ========================================================= */
+let data = null;
+let editId = null;
+let editSoldFlag = false;
+let editPhotoData = "";       // base64 foto yang sedang diedit
+let confirmCb = null;
+
+/* =========================================================
+   RESIZE FOTO (kompres otomatis)
+   ========================================================= */
+function resizeImage(file, maxDim, quality){
+  return new Promise(function(resolve, reject){
+    const img = new Image();
+    img.onload = function(){
+      let w = img.naturalWidth || img.width;
+      let h = img.naturalHeight || img.height;
+      const scale = Math.min(1, maxDim / Math.max(w, h));
+      w = Math.max(1, Math.round(w * scale));
+      h = Math.max(1, Math.round(h * scale));
+
+      const canvas = document.createElement("canvas");
+      canvas.width = w;
+      canvas.height = h;
+      const ctx = canvas.getContext("2d");
+      // background putih biar PNG transparan tidak jadi hitam
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(0, 0, w, h);
+      ctx.imageSmoothingQuality = "high";
+      ctx.drawImage(img, 0, 0, w, h);
+
+      // Kompres iteratif, target <= ~350KB base64
+      let q = quality;
+      let out = canvas.toDataURL("image/jpeg", q);
+      let safety = 0;
+      while (out.length > 350000 && q > 0.4 && safety < 8) {
+        q -= 0.08;
+        out = canvas.toDataURL("image/jpeg", q);
+        safety++;
+      }
+      resolve(out);
+    };
+    img.onerror = function(){ reject(new Error("Gagal memuat gambar")); };
+    const reader = new FileReader();
+    reader.onload = function(){ img.src = reader.result; };
+    reader.onerror = function(){ reject(new Error("Gagal baca file")); };
+    reader.readAsDataURL(file);
+  });
+}
+
+/* =========================================================
+   STORAGE
+   ========================================================= */
+function readLocal(){
+  try {
+    const raw = localStorage.getItem(STORE_KEY);
+    if (!raw) return null;
+    const d = JSON.parse(raw);
+    if (d && Array.isArray(d.products)) return d;
+  } catch(e){}
+  return null;
+}
+
+function writeLocal(d){
+  try { localStorage.setItem(STORE_KEY, JSON.stringify(d)); return true; }
+  catch(e){
+    // Kemungkinan quota penuh (banyak foto base64). Coba ringankan.
+    try { localStorage.removeItem(STORE_KEY); } catch(_){}
+    return false;
+  }
+}
+
+async function cloudSave(d){
+  if (!CLOUD.enabled || !CLOUD.url) return false;
+  try {
+    const res = await fetch(CLOUD.url.replace(/\/$/, "") + CLOUD.path, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(d)
+    });
+    return res.ok;
+  } catch(e){ return false; }
+}
+
+async function cloudLoad(){
+  if (!CLOUD.enabled || !CLOUD.url) return null;
+  try {
+    const res = await fetch(CLOUD.url.replace(/\/$/, "") + CLOUD.path + "?t=" + Date.now(), { cache: "no-store" });
+    if (!res.ok) return null;
+    const d = await res.json();
+    return (d && Array.isArray(d.products)) ? d : null;
+  } catch(e){ return null; }
+}
+
+function normalize(d){
+  return {
+    version: 2,
+    updatedAt: d.updatedAt || Date.now(),
+    settings: Object.assign({ storeName:"ZIEKAJA", waNumber:"628991567459", instagram:"zyie.png", soldOutFeature:true }, d.settings || {}),
+    products: (d.products || []).map(function(p, i){
+      return {
+        id: p.id || ("p" + i + uid()),
+        model: p.model || "iPhone",
+        series: p.series || "iPhone",
+        storage: p.storage || "",
+        color: p.color || "",
+        condition: p.condition || "Good",
+        battery: p.battery || "",
+        completeness: p.completeness || "",
+        warranty: p.warranty || "",
+        location: p.location || "",
+        price: Number(p.price) || 0,
+        badge: p.badge || "",
+        soldOut: !!p.soldOut,
+        photo: (typeof p.photo === "string") ? p.photo : "",
+        desc: p.desc || ""
+      };
+    })
+  };
+}
+
+async function persist(opts){
+  data.updatedAt = Date.now();
+  const ind = $("#saveInd");
+  ind.classList.add("saving");
+  ind.querySelector("span:last-child").textContent = "Menyimpan…";
+
+  const localOk = writeLocal(data);
+  const cloudOk = await cloudSave(data);
+
+  ind.classList.remove("saving");
+  if (!localOk) {
+    ind.querySelector("span:last-child").textContent = "Lokal penuh";
+    if (!opts || !opts.silent) toast("Penyimpanan browser penuh. Coba hapus foto lama atau pakai cloud.", true);
+    return;
+  }
+  if (CLOUD.enabled && CLOUD.url && !cloudOk) {
+    ind.querySelector("span:last-child").textContent = "Lokal saja";
+    if (!opts || !opts.silent) toast("Tersimpan lokal. Cloud gagal — cek koneksi.", true);
+  } else {
+    ind.querySelector("span:last-child").textContent = "Tersimpan";
+    if (!opts || !opts.silent) toast("Tersimpan");
+  }
+}
+
+/* =========================================================
+   TOAST
+   ========================================================= */
+let toastTimer;
+function toast(msg, isErr){
+  const t = $("#toast");
+  t.textContent = msg;
+  t.classList.toggle("err", !!isErr);
+  t.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function(){ t.classList.remove("show"); }, 2600);
+}
+
+/* =========================================================
+   AUTH
+   ========================================================= */
+function getPass(){
+  try { return localStorage.getItem(PASS_KEY) || DEFAULT_PASS; }
+  catch(e){ return DEFAULT_PASS; }
+}
+function setPass(p){
+  try { localStorage.setItem(PASS_KEY, p); } catch(e){}
+}
+function isLoggedIn(){
+  try { return sessionStorage.getItem(SESS_KEY) === "1"; } catch(e){ return false; }
+}
+function setLoggedIn(v){
+  try { if (v) sessionStorage.setItem(SESS_KEY, "1"); else sessionStorage.removeItem(SESS_KEY); }
+  catch(e){}
+}
+
+function showAuthError(msg){
+  const el = $("#authErr");
+  el.textContent = msg;
+  el.classList.add("show");
+  setTimeout(function(){ el.classList.remove("show"); }, 4000);
+}
+
+/* =========================================================
+   TEMA
+   ========================================================= */
+function applyTheme(theme){
+  document.documentElement.setAttribute("data-theme", theme);
+  try { localStorage.setItem(THEME_KEY, theme); } catch(e){}
+}
+(function initTheme(){
+  let saved = null;
+  try { saved = localStorage.getItem(THEME_KEY); } catch(e){}
+  if (!saved) saved = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  applyTheme(saved);
+})();
+
+/* =========================================================
+   RENDER PRODUK
+   ========================================================= */
+function prodThumb(p){
+  if (p.photo && p.photo.indexOf("data:image") === 0) {
+    return { cls: "has-photo", html: '<img src="' + esc(p.photo) + '" alt="' + esc(p.model) + '" loading="lazy">' };
+  }
+  return { cls: "", html: phoneSVG(p.color, p.model) };
+}
+
+function renderProducts(){
+  const list = data.products;
+  const info = $("#prodInfo");
+  const avail = list.filter(function(p){ return !p.soldOut; }).length;
+  info.textContent = list.length
+    ? list.length + " unit · " + avail + " tersedia · " + (list.length - avail) + " sold out"
+    : "Belum ada produk. Klik Tambah iPhone.";
+
+  if (!list.length) {
+    $("#prodList").innerHTML =
+      '<div class="empty-state">' +
+        '<b>Belum ada iPhone</b>' +
+        '<p>Tambahkan unit pertama kamu untuk mulai jualan.</p>' +
+        '<button class="btn btn-primary btn-sm" onclick="document.getElementById(\'addBtn\').click()">Tambah iPhone</button>' +
+      '</div>';
+    return;
+  }
+
+  $("#prodList").innerHTML = list.map(function(p){
+    const t = prodThumb(p);
+    return '<div class="prod' + (p.soldOut ? " is-sold" : "") + '" data-id="' + esc(p.id) + '">' +
+      '<div class="prod-thumb ' + t.cls + '">' + t.html + '</div>' +
+      '<div class="prod-info">' +
+        '<b>' + esc(p.model) + '</b>' +
+        '<small>' + esc([p.storage, p.color, p.condition].filter(Boolean).join(" · ")) + '</small>' +
+        '<div class="prod-price' + (p.soldOut ? " sold" : "") + '">' + fmt(p.price) + '</div>' +
+      '</div>' +
+      '<div class="prod-actions">' +
+        '<button class="toggle' + (p.soldOut ? "" : " on") + '" data-toggle="' + esc(p.id) + '" title="Klik untuk ubah status"></button>' +
+        '<button class="icon-mini" data-edit="' + esc(p.id) + '" title="Edit">' +
+          '<svg viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>' +
+        '</button>' +
+        '<button class="icon-mini del" data-del="' + esc(p.id) + '" title="Hapus">' +
+          '<svg viewBox="0 0 24 24"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6M10 11v6M14 11v6"/></svg>' +
+        '</button>' +
+      '</div>' +
+    '</div>';
+  }).join("");
+}
+
+/* =========================================================
+   RENDER PENGATURAN
+   ========================================================= */
+function renderSettings(){
+  $("#setStore").value = data.settings.storeName || "";
+  $("#setWa").value = data.settings.waNumber || "";
+  $("#setIg").value = data.settings.instagram || "";
+  $("#toggleSoldFeature").classList.toggle("on", data.settings.soldOutFeature !== false);
+
+  const status = $("#cloudStatus");
+  const code = $("#cloudCode");
+  if (CLOUD.enabled && CLOUD.url) {
+    status.innerHTML = 'Mode: <span class="status-pill on"><span class="dot"></span>Cloud aktif</span> — perubahan akan sinkron ke HP pembeli.';
+    code.textContent = "URL: " + CLOUD.url + CLOUD.path;
+  } else {
+    status.innerHTML = 'Mode: <span class="status-pill"><span class="dot"></span>Lokal saja</span> — perubahan hanya tersimpan di browser ini. Untuk sinkron antar-device, isi <b>CLOUD.url</b> dan set <b>enabled: true</b> di kedua file.';
+    code.textContent = "// Buka index.html & admin.html, cari:\nconst CLOUD = {\n  enabled: true,   // ← ubah jadi true\n  url: \"https://xxx-default-rtdb.asia-southeast1.firebasedatabase.app\",\n  path: \"/ziekaja/store.json\"\n};";
+  }
+}
+
+/* =========================================================
+   PHOTO PREVIEW di form edit
+   ========================================================= */
+function renderPhotoPreview(){
+  const box = $("#photoPreview");
+  if (editPhotoData && editPhotoData.indexOf("data:image") === 0) {
+    box.innerHTML = '<img src="' + esc(editPhotoData) + '" alt="Preview">';
+  } else {
+    const model = $("#fModel").value || "iPhone";
+    const color = $("#fColor").value || "";
+    box.innerHTML = phoneSVG(color, model);
+  }
+}
+
+/* =========================================================
+   MODAL EDIT
+   ========================================================= */
+function fillModelSelect(current){
+  const sel = $("#fModel");
+  sel.innerHTML = '<option value="">Pilih model…</option>' +
+    MODELS.map(function(o){
+      return '<option value="' + esc(o.m) + '" data-s="' + esc(o.s) + '"' + (o.m === current ? " selected" : "") + '>' + esc(o.m) + "</option>";
+    }).join("");
+}
+function fillColorList(){
+  $("#colorList").innerHTML = COLORS.map(function(c){ return '<option value="' + esc(c) + '">'; }).join("");
+}
+
+function openEdit(id){
+  editId = id || null;
+  editSoldFlag = false;
+  editPhotoData = "";
+  $("#editTitle").textContent = id ? "Edit iPhone" : "Tambah iPhone";
+  $("#editForm").reset();
+
+  if (id) {
+    const p = data.products.filter(function(x){ return x.id === id; })[0];
+    if (!p) return;
+    editSoldFlag = !!p.soldOut;
+    editPhotoData = p.photo || "";
+    fillModelSelect(p.model);
+    $("#fSeries").value = p.series;
+    $("#fStorage").value = p.storage || "128 GB";
+    $("#fColor").value = p.color || "";
+    $("#fCond").value = p.condition || "Good";
+    $("#fBatt").value = p.battery || "";
+    $("#fPrice").value = p.price || "";
+    $("#fComplete").value = p.completeness || "";
+    $("#fWarranty").value = p.warranty || "";
+    $("#fLoc").value = p.location || "";
+    $("#fBadge").value = p.badge || "";
+    $("#fDesc").value = p.desc || "";
+    $("#fId").value = p.id;
+  } else {
+    fillModelSelect("");
+    $("#fSeries").value = "";
+    $("#fStorage").value = "128 GB";
+    $("#fCond").value = "Like New";
+    $("#fId").value = "";
+  }
+
+  renderPhotoPreview();
+  $("#fSold").classList.toggle("on", !editSoldFlag);
+  showModal("#editModal");
+  setTimeout(function(){ $("#fModel").focus(); }, 100);
+}
+
+function closeEdit(){
+  hideModal("#editModal");
+  editId = null;
+  editPhotoData = "";
+}
+
+function saveEdit(){
+  const model = $("#fModel").value.trim();
+  const price = Number($("#fPrice").value);
+  if (!model) { toast("Pilih model iPhone dulu", true); return; }
+  if (!price || price < 0) { toast("Harga wajib diisi", true); return; }
+
+  const seriesOpt = $("#fModel").selectedOptions[0];
+  const series = seriesOpt ? seriesOpt.getAttribute("data-s") : "iPhone";
+
+  const payload = {
+    id: $("#fId").value || ("p" + uid()),
+    model: model,
+    series: series,
+    storage: $("#fStorage").value.trim(),
+    color: $("#fColor").value.trim(),
+    condition: $("#fCond").value,
+    battery: $("#fBatt").value.trim(),
+    completeness: $("#fComplete").value.trim(),
+    warranty: $("#fWarranty").value.trim(),
+    location: $("#fLoc").value.trim(),
+    price: price,
+    badge: $("#fBadge").value.trim(),
+    soldOut: editSoldFlag,
+    photo: editPhotoData || "",
+    desc: $("#fDesc").value.trim()
+  };
+
+  if (editId) {
+    const idx = data.products.findIndex(function(x){ return x.id === editId; });
+    if (idx > -1) data.products[idx] = payload;
+  } else {
+    data.products.unshift(payload);
+  }
+
+  persist();
+  renderProducts();
+  closeEdit();
+}
+
+/* =========================================================
+   MODAL HELPERS
+   ========================================================= */
+function showModal(sel){
+  const m = $(sel);
+  m.classList.add("open");
+  m.setAttribute("aria-hidden", "false");
+  document.body.style.overflow = "hidden";
+}
+function hideModal(sel){
+  const m = $(sel);
+  m.classList.remove("open");
+  m.setAttribute("aria-hidden", "true");
+  if (!$(".modal.open")) document.body.style.overflow = "";
+}
+
+function askConfirm(title, msg, btnLabel, cb){
+  $("#confirmTitle").textContent = title;
+  $("#confirmMsg").textContent = msg;
+  $("#confirmYes").textContent = btnLabel || "Hapus";
+  confirmCb = cb;
+  showModal("#confirmModal");
+}
+
+/* =========================================================
+   EXPORT / IMPORT
+   ========================================================= */
+function exportJSON(){
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "ziekaja-backup-" + new Date().toISOString().slice(0, 10) + ".json";
+  a.click();
+  setTimeout(function(){ URL.revokeObjectURL(url); }, 1000);
+  toast("Backup terunduh");
+}
+
+function importJSON(file){
+  const reader = new FileReader();
+  reader.onload = function(e){
+    try {
+      const d = JSON.parse(e.target.result);
+      if (!d || !Array.isArray(d.products)) throw new Error("Format tidak valid");
+      data = normalize(d);
+      persist({ silent: true });
+      renderProducts(); renderSettings();
+      toast("Data berhasil dipulihkan");
+    } catch(err) {
+      toast("File tidak valid", true);
+    }
+  };
+  reader.readAsText(file);
+}
+
+/* =========================================================
+   INIT
+   ========================================================= */
+function bootApp(){
+  $("#app").classList.add("on");
+  $("#authScreen").style.display = "none";
+
+  fillColorList();
+
+  (async function(){
+    const cloud = await cloudLoad();
+    const local = readLocal();
+    data = normalize(cloud || local || { settings: {}, products: [] });
+
+    renderProducts();
+    renderSettings();
+
+    document.querySelector(".topbar-brand b").textContent = (data.settings.storeName || "ZIEKAJA") + " Admin";
+  })();
+}
+
+/* =========================================================
+   EVENT LISTENERS
+   ========================================================= */
+$("#loginForm").addEventListener("submit", function(e){
+  e.preventDefault();
+  const input = $("#pass").value;
+  if (input === getPass()) {
+    setLoggedIn(true);
+    bootApp();
+  } else {
+    showAuthError("Password salah. Coba lagi.");
+    $("#pass").select();
+  }
+});
+
+if (isLoggedIn()) bootApp();
+
+$("#logoutBtn").addEventListener("click", function(){
+  setLoggedIn(false);
+  location.reload();
+});
+
+$$(".tab").forEach(function(t){
+  t.addEventListener("click", function(){
+    $$(".tab").forEach(function(x){ x.classList.remove("on"); });
+    t.classList.add("on");
+    const name = t.getAttribute("data-tab");
+    $("#tabProduk").style.display = name === "produk" ? "" : "none";
+    $("#tabPengaturan").style.display = name === "pengaturan" ? "" : "none";
+  });
+});
+
+$("#addBtn").addEventListener("click", function(){ openEdit(null); });
+
+$("#prodList").addEventListener("click", function(e){
+  const toggle = e.target.closest("[data-toggle]");
+  if (toggle) {
+    const id = toggle.getAttribute("data-toggle");
+    const p = data.products.filter(function(x){ return x.id === id; })[0];
+    if (!p) return;
+    p.soldOut = !p.soldOut;
+    persist({ silent: true });
+    renderProducts();
+    toast(p.soldOut ? "Ditandai sold out" : "Ditandai tersedia");
+    return;
+  }
+  const edit = e.target.closest("[data-edit]");
+  if (edit) { openEdit(edit.getAttribute("data-edit")); return; }
+  const del = e.target.closest("[data-del]");
+  if (del) {
+    const id = del.getAttribute("data-del");
+    const p = data.products.filter(function(x){ return x.id === id; })[0];
+    if (!p) return;
+    askConfirm("Hapus produk?", 'Hapus "' + p.model + '" dari katalog? Tindakan ini tidak bisa dibatalkan.', "Hapus", function(){
+      data.products = data.products.filter(function(x){ return x.id !== id; });
+      persist();
+      renderProducts();
+      toast("Produk dihapus");
+    });
+  }
+});
+
+$("#editClose").addEventListener("click", closeEdit);
+$("#editCancel").addEventListener("click", closeEdit);
+$("#editModal").addEventListener("click", function(e){ if (e.target === this) closeEdit(); });
+$("#editSave").addEventListener("click", saveEdit);
+
+$("#fModel").addEventListener("change", function(){
+  const opt = this.selectedOptions[0];
+  $("#fSeries").value = opt ? opt.getAttribute("data-s") : "";
+  renderPhotoPreview();
+});
+
+$("#fColor").addEventListener("input", renderPhotoPreview);
+
+$("#fSold").addEventListener("click", function(){
+  editSoldFlag = !editSoldFlag;
+  this.classList.toggle("on", !editSoldFlag);
+});
+
+/* === PHOTO UPLOAD === */
+$("#pickPhoto").addEventListener("click", function(){ $("#photoFile").click(); });
+
+$("#photoFile").addEventListener("change", async function(e){
+  const file = e.target.files && e.target.files[0];
+  if (!file) return;
+  if (file.size > 12 * 1024 * 1024) {
+    toast("File terlalu besar (max 12MB)", true);
+    e.target.value = "";
+    return;
+  }
+  toast("Mengompres foto…");
+  try {
+    const dataUrl = await resizeImage(file, 1000, 0.82);
+    editPhotoData = dataUrl;
+    renderPhotoPreview();
+    const kb = Math.round(dataUrl.length * 0.75 / 1024);
+    toast("Foto siap · ~" + kb + " KB");
+  } catch(err) {
+    toast("Gagal memproses foto", true);
+  }
+  e.target.value = "";
+});
+
+$("#clearPhoto").addEventListener("click", function(){
+  editPhotoData = "";
+  renderPhotoPreview();
+  toast("Foto dihapus");
+});
+
+/* Settings */
+$("#saveSettings").addEventListener("click", function(){
+  data.settings.storeName = $("#setStore").value.trim() || "ZIEKAJA";
+  data.settings.waNumber = $("#setWa").value.replace(/[^0-9]/g, "");
+  data.settings.instagram = $("#setIg").value.trim().replace(/^@/, "");
+  persist();
+  document.querySelector(".topbar-brand b").textContent = data.settings.storeName + " Admin";
+});
+
+$("#toggleSoldFeature").addEventListener("click", function(){
+  data.settings.soldOutFeature = data.settings.soldOutFeature === false ? true : false;
+  this.classList.toggle("on", data.settings.soldOutFeature !== false);
+  persist();
+  toast("Fitur sold out " + (data.settings.soldOutFeature !== false ? "diaktifkan" : "dimatikan"));
+});
+
+$("#changePass").addEventListener("click", function(){
+  const oldP = $("#oldPass").value;
+  const newP = $("#newPass").value;
+  if (oldP !== getPass()) { toast("Password lama salah", true); return; }
+  if (newP.length < 6) { toast("Password baru minimal 6 karakter", true); return; }
+  setPass(newP);
+  $("#oldPass").value = "";
+  $("#newPass").value = "";
+  toast("Password diubah");
+});
+
+$("#exportBtn").addEventListener("click", exportJSON);
+$("#exportBtn2").addEventListener("click", exportJSON);
+$("#importBtn").addEventListener("click", function(){ $("#importFile").click(); });
+$("#importBtn2").addEventListener("click", function(){ $("#importFile").click(); });
+$("#importFile").addEventListener("change", function(e){
+  if (e.target.files && e.target.files[0]) {
+    importJSON(e.target.files[0]);
+    e.target.value = "";
+  }
+});
+
+$("#resetBtn").addEventListener("click", function(){
+  askConfirm("Reset ke default?", "Semua produk dan pengaturan akan diganti ke contoh awal. Data yang kamu buat akan hilang. Lanjutkan?", "Reset", function(){
+    try { localStorage.removeItem(STORE_KEY); } catch(e){}
+    toast("Data direset. Refresh halaman…");
+    setTimeout(function(){ location.reload(); }, 800);
+  });
+});
+
+$("#confirmNo").addEventListener("click", function(){
+  hideModal("#confirmModal");
+  confirmCb = null;
+});
+$("#confirmYes").addEventListener("click", function(){
+  const cb = confirmCb;
+  hideModal("#confirmModal");
+  confirmCb = null;
+  if (cb) cb();
+});
+$("#confirmModal").addEventListener("click", function(e){
+  if (e.target === this) { hideModal("#confirmModal"); confirmCb = null; }
+});
+
+document.addEventListener("keydown", function(e){
+  if (e.key === "Escape") {
+    if ($("#editModal").classList.contains("open")) closeEdit();
+    else if ($("#confirmModal").classList.contains("open")) { hideModal("#confirmModal"); confirmCb = null; }
+  }
+});
+
+})();
+</script>
+</body>
+</html>

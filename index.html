@@ -1,0 +1,930 @@
+<!-- index.html — Toko (untuk pembeli) -->
+<!doctype html>
+<html lang="id" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>ZIEKAJA — iPhone Second Berkualitas</title>
+<meta name="description" content="iPhone second berkualitas, dicek teknisi, bergaransi toko. Order via WhatsApp.">
+<meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#09090b" media="(prefers-color-scheme: dark)">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<style>
+:root{
+  --bg:#fafafa; --surface:#fff; --surface-2:#f4f4f5; --surface-3:#e4e4e7;
+  --ink:#09090b; --ink-2:#52525b; --muted:#a1a1aa;
+  --line:#e4e4e7; --line-2:#d4d4d8;
+  --btn:#09090b; --btn-ink:#fff;
+  --wa:#25d366; --wa-ink:#04321a; --ok:#16a34a;
+  --r:14px; --r-lg:22px;
+  --sh-1:0 1px 2px rgba(9,9,11,.04);
+  --sh-2:0 1px 3px rgba(9,9,11,.06),0 8px 24px -12px rgba(9,9,11,.18);
+  --sh-3:0 2px 6px rgba(9,9,11,.06),0 24px 48px -24px rgba(9,9,11,.28);
+  --ease:cubic-bezier(.22,1,.36,1);
+  color-scheme:light;
+}
+html[data-theme="dark"]{
+  --bg:#09090b; --surface:#18181b; --surface-2:#27272a; --surface-3:#3f3f46;
+  --ink:#fafafa; --ink-2:#d4d4d8; --muted:#71717a;
+  --line:#27272a; --line-2:#3f3f46;
+  --btn:#fafafa; --btn-ink:#09090b;
+  --sh-1:0 1px 2px rgba(0,0,0,.5);
+  --sh-2:0 1px 3px rgba(0,0,0,.4),0 8px 24px -12px rgba(0,0,0,.8);
+  --sh-3:0 2px 6px rgba(0,0,0,.5),0 24px 48px -24px rgba(0,0,0,1);
+  color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font:15px/1.6 "Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  -webkit-font-smoothing:antialiased;
+  transition:background-color .3s var(--ease),color .3s var(--ease);
+  overflow-x:hidden;
+}
+img,svg{display:block;max-width:100%}
+button{font:inherit;color:inherit;border:0;background:none;cursor:pointer;-webkit-tap-highlight-color:transparent}
+a{color:inherit;text-decoration:none}
+input{font:inherit;color:inherit}
+h1,h2,h3{margin:0;line-height:1.15;letter-spacing:-.025em;font-weight:700}
+::selection{background:var(--ink);color:var(--bg)}
+:focus-visible{outline:2px solid var(--ink);outline-offset:3px;border-radius:6px}
+.wrap{max-width:1200px;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+
+/* BUTTONS */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  height:46px;padding:0 20px;border-radius:10px;
+  font-weight:600;font-size:14.5px;letter-spacing:-.01em;
+  transition:transform .16s var(--ease),box-shadow .25s var(--ease),background-color .2s,opacity .2s;
+  white-space:nowrap;
+}
+.btn:active{transform:scale(.97)}
+.btn-dark{background:var(--btn);color:var(--btn-ink);box-shadow:var(--sh-1)}
+.btn-dark:hover{transform:translateY(-1px);box-shadow:var(--sh-2)}
+.btn-wa{background:var(--wa);color:var(--wa-ink);box-shadow:0 6px 20px -10px rgba(37,211,102,.9)}
+.btn-wa:hover{transform:translateY(-1px);box-shadow:0 10px 26px -10px rgba(37,211,102,.95)}
+.btn-ghost{background:var(--surface);color:var(--ink);border:1px solid var(--line-2)}
+.btn-ghost:hover{background:var(--surface-2)}
+.btn-sm{height:38px;padding:0 15px;font-size:13.5px;border-radius:8px}
+.wa-ico{width:17px;height:17px;fill:currentColor;flex:none}
+
+/* NAV */
+.nav{
+  position:sticky;top:0;z-index:50;
+  background:color-mix(in srgb,var(--bg) 82%,transparent);
+  backdrop-filter:saturate(1.6) blur(16px);
+  -webkit-backdrop-filter:saturate(1.6) blur(16px);
+  border-bottom:1px solid var(--line);
+}
+.nav-in{display:flex;align-items:center;justify-content:space-between;gap:14px;height:64px}
+.brand{display:flex;align-items:center;gap:10px}
+.brand-mark{
+  width:34px;height:34px;border-radius:9px;
+  background:var(--ink);color:var(--bg);
+  display:grid;place-items:center;
+  font-weight:800;font-size:15px;letter-spacing:-.03em;
+  transition:transform .35s var(--ease);
+}
+.brand:hover .brand-mark{transform:rotate(-6deg) scale(1.05)}
+.brand-text b{display:block;font-weight:700;font-size:15.5px;letter-spacing:-.02em;line-height:1.1}
+.brand-text small{display:block;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-top:2px}
+.nav-right{display:flex;align-items:center;gap:8px}
+.icon-btn{
+  width:38px;height:38px;border-radius:9px;border:1px solid var(--line-2);
+  background:var(--surface);display:grid;place-items:center;
+  transition:background-color .2s,transform .2s var(--ease);
+}
+.icon-btn:hover{background:var(--surface-2)}
+.icon-btn:active{transform:scale(.94)}
+.icon-btn svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+html[data-theme="light"] .ico-sun{display:none}
+html[data-theme="dark"] .ico-moon{display:none}
+
+/* HERO */
+.hero{
+  display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center;
+  padding:56px 0 48px;
+}
+@media(max-width:860px){.hero{grid-template-columns:1fr;gap:28px;padding:36px 0 24px}}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--surface);border:1px solid var(--line-2);
+  padding:6px 13px;border-radius:999px;
+  font-size:11.5px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;
+  color:var(--ink-2);
+}
+.eyebrow::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--ok)}
+.hero h1{font-size:clamp(32px,5vw,54px);margin:18px 0 14px;font-weight:800;letter-spacing:-.035em}
+.hero h1 em{font-style:normal;color:var(--muted)}
+.hero p{max-width:460px;color:var(--ink-2);font-size:16px;margin:0 0 24px;line-height:1.65}
+.hero-cta{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:24px}
+.trust{display:flex;flex-wrap:wrap;gap:8px 18px;list-style:none;padding:0;margin:0}
+.trust li{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:500;color:var(--ink-2)}
+.trust svg{width:14px;height:14px;stroke:var(--ok);fill:none;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round;flex:none}
+
+.hero-visual{
+  position:relative;display:grid;place-items:center;min-height:400px;
+  background:radial-gradient(120% 100% at 70% 0%,var(--surface-2),transparent 70%),var(--surface);
+  border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;
+  padding:30px;
+}
+@media(max-width:860px){.hero-visual{min-height:340px}}
+.hero-visual::before{
+  content:"";position:absolute;width:300px;height:300px;border-radius:50%;
+  background:radial-gradient(circle,rgba(37,211,102,.18),transparent 68%);
+  filter:blur(40px);top:-60px;right:-60px;pointer-events:none;
+}
+.hero-phone{width:min(190px,60%);filter:drop-shadow(0 30px 40px rgba(10,10,20,.25));position:relative;z-index:1}
+.chip-float{
+  position:absolute;z-index:2;display:flex;align-items:center;gap:9px;
+  background:var(--surface);border:1px solid var(--line-2);
+  border-radius:12px;padding:9px 13px;
+  box-shadow:var(--sh-2);font-size:12.5px;font-weight:600;line-height:1.2;
+  animation:floaty 6s ease-in-out infinite;
+}
+.chip-float small{display:block;font-size:10.5px;font-weight:500;color:var(--muted);letter-spacing:.03em;margin-top:2px}
+.chip-float.a{top:26px;left:16px}
+.chip-float.b{bottom:30px;right:16px;animation-delay:-3s}
+.chip-dot{width:8px;height:8px;border-radius:50%;background:var(--ok);flex:none;box-shadow:0 0 0 4px rgba(22,163,74,.16)}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+
+/* CATALOG */
+.catalog{padding:32px 0 0;border-top:1px solid var(--line)}
+.catalog-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:20px}
+.catalog-head h2{font-size:clamp(22px,3vw,28px);font-weight:700;letter-spacing:-.03em}
+.catalog-head p{margin:6px 0 0;color:var(--muted);font-size:13.5px}
+.search{position:relative;flex:1;min-width:220px;max-width:340px}
+.search svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:16px;height:16px;stroke:var(--muted);fill:none;stroke-width:2;stroke-linecap:round}
+.search input{
+  width:100%;height:44px;border-radius:10px;
+  border:1px solid var(--line-2);background:var(--surface);
+  padding:0 16px 0 42px;font-size:14px;
+  transition:border-color .2s,box-shadow .2s;
+}
+.search input::placeholder{color:var(--muted)}
+.search input:focus{outline:none;border-color:var(--ink);box-shadow:0 0 0 4px color-mix(in srgb,var(--ink) 8%,transparent)}
+
+.chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding-bottom:4px;margin-bottom:24px}
+.chips::-webkit-scrollbar{display:none}
+.chip{
+  height:36px;padding:0 15px;border-radius:8px;flex:none;
+  border:1px solid var(--line-2);background:var(--surface);color:var(--ink-2);
+  font-size:13px;font-weight:600;
+  transition:background-color .2s,color .2s,border-color .2s;
+}
+.chip:hover{background:var(--surface-2)}
+.chip.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+
+/* GRID */
+.grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+  gap:16px;padding-bottom:64px;
+}
+@media(max-width:600px){.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}}
+
+.card{
+  background:var(--surface);border:1px solid var(--line);
+  border-radius:var(--r);overflow:hidden;position:relative;
+  display:flex;flex-direction:column;cursor:pointer;
+  transition:transform .25s var(--ease),box-shadow .25s var(--ease),border-color .2s;
+  animation:cardIn .45s var(--ease) backwards;
+  animation-delay:calc(var(--i,0) * 35ms);
+}
+@keyframes cardIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.card:hover{transform:translateY(-4px);box-shadow:var(--sh-3);border-color:var(--line-2)}
+.card-img{
+  position:relative;aspect-ratio:4/5;
+  background:linear-gradient(165deg,var(--surface-2) 0%,var(--surface) 82%);
+  display:grid;place-items:center;padding:16% 18%;
+  border-bottom:1px solid var(--line);
+  overflow:hidden;
+}
+.card-img > svg{width:100%;height:100%;transition:transform .45s var(--ease)}
+.card:hover .card-img > svg{transform:scale(1.04)}
+
+/* FOTO ASLI */
+.card-img.has-photo{padding:0;background:var(--surface-2)}
+.card-img.has-photo img{
+  width:100%;height:100%;object-fit:cover;display:block;
+  transition:transform .5s var(--ease);
+}
+.card:hover .card-img.has-photo img{transform:scale(1.05)}
+
+.badge{
+  position:absolute;top:9px;left:9px;z-index:2;
+  background:var(--ink);color:var(--bg);
+  font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  padding:4px 9px;border-radius:999px;
+}
+.cond{
+  position:absolute;top:9px;right:9px;z-index:2;
+  background:color-mix(in srgb,var(--surface) 88%,transparent);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  border:1px solid var(--line-2);
+  font-size:10px;font-weight:600;letter-spacing:.02em;
+  padding:3px 8px;border-radius:999px;color:var(--ink-2);
+}
+.card-body{padding:12px 14px 14px;display:flex;flex-direction:column;gap:2px;flex:1;min-width:0}
+.card-brand{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.card-name{
+  font-size:14px;font-weight:600;letter-spacing:-.015em;line-height:1.3;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+  min-height:2.6em;
+}
+.card-meta{font-size:11.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.card-price{font-weight:700;font-size:15.5px;letter-spacing:-.02em;margin-top:8px;color:var(--ink)}
+@media(max-width:600px){
+  .card-body{padding:10px 11px 12px}
+  .card-name{font-size:12.5px}
+  .card-price{font-size:14px;margin-top:6px}
+  .card-meta{font-size:10.5px}
+}
+
+/* SOLD OUT */
+.card.sold{cursor:not-allowed;opacity:.6}
+.card.sold:hover{transform:none;box-shadow:none;border-color:var(--line)}
+.card.sold .card-img > svg,
+.card.sold .card-img.has-photo img{filter:grayscale(1) contrast(.9)}
+.card.sold .card-price{color:var(--muted)}
+.sold-overlay{
+  position:absolute;inset:0;z-index:3;display:grid;place-items:center;
+  background:color-mix(in srgb,var(--surface) 30%,transparent);
+}
+.sold-overlay span{
+  background:rgba(9,9,11,.88);color:#fff;
+  font-size:11px;font-weight:800;letter-spacing:.2em;
+  padding:9px 16px;border-radius:8px;transform:rotate(-6deg);
+  box-shadow:0 8px 22px rgba(0,0,0,.3);
+}
+
+.empty{grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--muted)}
+.empty svg{width:42px;height:42px;margin:0 auto 14px;stroke:var(--line-2);fill:none;stroke-width:1.8}
+.empty b{display:block;font-size:16px;color:var(--ink);margin-bottom:6px;font-weight:600}
+
+/* MODAL */
+.modal{
+  position:fixed;inset:0;z-index:120;
+  display:flex;align-items:center;justify-content:center;padding:20px;
+  background:rgba(8,8,12,.55);
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  opacity:0;pointer-events:none;transition:opacity .25s var(--ease);
+}
+.modal.open{opacity:1;pointer-events:auto}
+.modal-card{
+  background:var(--surface);border-radius:20px;
+  width:min(900px,100%);max-height:calc(100dvh - 40px);
+  overflow:auto;-webkit-overflow-scrolling:touch;
+  box-shadow:0 40px 100px -30px rgba(0,0,0,.5);
+  transform:translateY(14px) scale(.985);
+  transition:transform .3s var(--ease);
+  position:relative;overscroll-behavior:contain;
+}
+.modal.open .modal-card{transform:none}
+.modal-close{
+  position:sticky;float:right;top:12px;right:12px;z-index:5;
+  margin:12px 12px -50px 0;
+  width:34px;height:34px;border-radius:50%;
+  background:color-mix(in srgb,var(--surface) 85%,transparent);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  border:1px solid var(--line-2);
+  display:grid;place-items:center;
+  transition:background-color .2s,transform .25s var(--ease);
+}
+.modal-close:hover{background:var(--surface-2);transform:rotate(90deg)}
+.modal-close svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round}
+
+.detail{display:grid;grid-template-columns:1fr 1.05fr}
+.detail-media{
+  background:linear-gradient(165deg,var(--surface-2) 0%,var(--surface) 80%);
+  display:grid;place-items:center;padding:14% 16%;
+  border-right:1px solid var(--line);position:relative;
+  overflow:hidden;
+}
+.detail-media > svg{width:100%;max-height:340px}
+
+/* FOTO ASLI di detail */
+.detail-media.has-photo{padding:0;background:var(--surface-2)}
+.detail-media.has-photo img{
+  width:100%;height:100%;object-fit:contain;
+  display:block;background:var(--surface-2);
+}
+
+.detail-info{padding:28px 28px 24px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.detail-brandline{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.tag{
+  font-size:10.5px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;
+  background:var(--surface-2);border:1px solid var(--line);
+  padding:4px 9px;border-radius:6px;color:var(--ink-2);
+}
+.tag.ok{background:rgba(22,163,74,.1);border-color:rgba(22,163,74,.25);color:var(--ok)}
+.detail-info h2{font-size:clamp(20px,2.4vw,26px);font-weight:700;letter-spacing:-.03em}
+.detail-price{font-weight:800;font-size:26px;letter-spacing:-.03em}
+.detail-desc{margin:0;color:var(--ink-2);font-size:13.5px;line-height:1.7}
+.specs{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.spec{display:flex;justify-content:space-between;gap:14px;background:var(--surface);padding:10px 13px;font-size:13px}
+.spec dt{color:var(--muted);font-weight:500;flex:none}
+.spec dd{margin:0;font-weight:600;text-align:right}
+.detail-cta{margin-top:auto;padding-top:6px;display:flex;flex-direction:column;gap:8px}
+.detail-cta .btn{height:50px;width:100%;font-size:15px}
+.detail-note{font-size:11.5px;color:var(--muted);text-align:center;line-height:1.5}
+
+@media(max-width:820px){
+  .modal{padding:0;align-items:flex-end}
+  .modal-card{border-radius:20px 20px 0 0;max-height:92dvh;width:100%}
+  .detail{grid-template-columns:1fr}
+  .detail-media{border-right:0;border-bottom:1px solid var(--line);padding:10% 22%}
+  .detail-media > svg{max-height:200px}
+  .detail-media.has-photo{padding:0}
+  .detail-media.has-photo img{max-height:280px}
+  .detail-info{padding:20px 18px calc(20px + env(safe-area-inset-bottom,0px));gap:12px}
+  .detail-price{font-size:22px}
+  .detail-desc{font-size:13px}
+}
+
+/* FOOTER */
+footer{border-top:1px solid var(--line);padding:28px 0 36px;background:var(--surface)}
+.foot-in{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between}
+.foot-in p{margin:0;font-size:12.5px;color:var(--muted)}
+.foot-links{display:flex;gap:8px;flex-wrap:wrap}
+.foot-links a{
+  display:inline-flex;align-items:center;gap:6px;
+  border:1px solid var(--line-2);border-radius:8px;
+  padding:7px 13px;font-size:12.5px;font-weight:600;
+  transition:background-color .2s,transform .16s var(--ease);
+}
+.foot-links a:hover{background:var(--surface-2);transform:translateY(-1px)}
+.foot-links svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2}
+
+.toast{
+  position:fixed;left:50%;bottom:24px;z-index:300;
+  transform:translate(-50%,140%);
+  background:var(--ink);color:var(--bg);
+  padding:11px 20px;border-radius:999px;
+  font-size:13px;font-weight:600;
+  box-shadow:var(--sh-3);
+  transition:transform .35s var(--ease);
+  pointer-events:none;max-width:calc(100vw - 32px);text-align:center;
+}
+.toast.show{transform:translate(-50%,0)}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
+}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="#">
+      <span class="brand-mark">Z</span>
+      <span class="brand-text"><b>ZIEKAJA</b><small>iPhone Store</small></span>
+    </a>
+    <div class="nav-right">
+      <button class="icon-btn" id="themeBtn" aria-label="Ganti tema">
+        <svg class="ico-moon" viewBox="0 0 24 24"><path d="M21 13A9 9 0 1 1 11 3a7 7 0 0 0 10 10z"/></svg>
+        <svg class="ico-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+      <a class="btn btn-wa btn-sm" id="navWa" target="_blank" rel="noopener">
+        <svg class="wa-ico" viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm0 18a8 8 0 0 1-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1 1 12 20z"/></svg>
+        Chat Admin
+      </a>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+    <div>
+      <span class="eyebrow">Dicek teknisi · Bergaransi toko</span>
+      <h1>iPhone second,<br><em>kualitas bukan second.</em></h1>
+      <p>Semua unit lewat pengecekan: baterai sehat, Face ID &amp; kamera normal, iCloud bersih, IMEI aman. Pilih unitnya, tanya lewat WhatsApp, langsung deal.</p>
+      <div class="hero-cta">
+        <a class="btn btn-dark" id="heroWa" target="_blank" rel="noopener">
+          <svg class="wa-ico" viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm0 18a8 8 0 0 1-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1 1 12 20z"/></svg>
+          Tanya Stok
+        </a>
+        <a class="btn btn-ghost" href="#katalog">Lihat Katalog</a>
+      </div>
+      <ul class="trust">
+        <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> Garansi toko</li>
+        <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> IMEI aman</li>
+        <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> Bisa COD</li>
+        <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> Kirim se-Indonesia</li>
+      </ul>
+    </div>
+    <div class="hero-visual">
+      <div class="chip-float a">
+        <span class="chip-dot"></span>
+        <div>Stok real-time<small>Update otomatis</small></div>
+      </div>
+      <div class="hero-phone" id="heroPhone"></div>
+      <div class="chip-float b">
+        <div>Baterai sehat<small>Dicek teknisi</small></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="catalog" id="katalog">
+    <div class="catalog-head">
+      <div>
+        <h2>Katalog iPhone</h2>
+        <p id="hasilInfo">Memuat data…</p>
+      </div>
+      <label class="search">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+        <input type="search" id="cari" placeholder="Cari iPhone 13, 128GB…" aria-label="Cari iPhone">
+      </label>
+    </div>
+    <div class="chips" id="chips"></div>
+    <div class="grid" id="grid"></div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot-in">
+    <p>© <span id="tahun"></span> ZIEKAJA iPhone Store · Semua unit dicek sebelum dikirim.</p>
+    <div class="foot-links">
+      <a id="footWa" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24"><path d="M21 11.5a8.4 8.4 0 0 1-12.6 7.4L3 21l2.2-5.2A8.4 8.4 0 1 1 21 11.5z"/></svg>WhatsApp
+      </a>
+      <a id="footIg" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1" fill="currentColor" stroke="none"/></svg>Instagram
+      </a>
+      <a href="admin.html">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-1.8-.3 1.6 1.6 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1A1.6 1.6 0 0 0 9 19.4a1.6 1.6 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0 .3-1.8 1.6 1.6 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1A1.6 1.6 0 0 0 4.6 9a1.6 1.6 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.8.3H9a1.6 1.6 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.6 1.6 0 0 0 1 1.5 1.6 1.6 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8V9a1.6 1.6 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1z"/></svg>Admin
+      </a>
+    </div>
+  </div>
+</footer>
+
+<div class="modal" id="modal" aria-hidden="true">
+  <div class="modal-card" role="dialog" aria-modal="true" aria-label="Detail iPhone">
+    <button class="modal-close" id="modalClose" aria-label="Tutup">
+      <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+"use strict";
+
+/* =========================================================
+   ⚙️  KONFIGURASI — SAMA di index.html & admin.html
+   ========================================================= */
+const CLOUD = {
+  enabled: false,
+  url: "",
+  path: "/ziekaja/store.json"
+};
+
+const STORE_KEY = "ziekaja_store_v2";
+const THEME_KEY = "ziekaja_theme";
+
+/* =========================================================
+   WARNA iPhone (untuk ilustrasi fallback)
+   ========================================================= */
+const COLOR_MAP = {
+  "Natural Titanium":["#c9c2b4","#9c9484"],
+  "Blue Titanium":["#5b6b7c","#3d4a58"],
+  "White Titanium":["#dcd9d3","#bab6ae"],
+  "Black Titanium":["#4a4a4e","#2b2c2f"],
+  "Desert Titanium":["#c3a482","#9b7c5a"],
+  "Midnight":["#2e3035","#191b1f"],
+  "Starlight":["#e6e1d7","#c8c2b5"],
+  "Blue":["#9bb4d1","#718baa"],
+  "Pink":["#f1c9cd","#d4a3a8"],
+  "Green":["#b9cdb4","#8ea889"],
+  "Red":["#c9474b","#9a3134"],
+  "Purple":["#7b6e96","#5b4f74"],
+  "Yellow":["#f1da78","#c9b348"],
+  "Black":["#3b3c3f","#1e1f22"],
+  "White":["#ecebe7","#cbc8c2"],
+  "Teal":["#8fb8b3","#6a938d"],
+  "Ultramarine":["#6b7ed4","#4b5ca8"],
+  "_default":["#b6b6bc","#8c8c93"]
+};
+
+/* =========================================================
+   DATA DEFAULT
+   ========================================================= */
+const DEFAULT_DATA = {
+  version: 2,
+  updatedAt: Date.now(),
+  settings: {
+    storeName: "ZIEKAJA",
+    waNumber: "628991567459",
+    instagram: "zyie.png",
+    soldOutFeature: true
+  },
+  products: [
+    { id:"ip15pm-nat-256", model:"iPhone 15 Pro Max", series:"iPhone 15", storage:"256 GB",
+      color:"Natural Titanium", condition:"Like New", battery:"92%",
+      completeness:"Fullset Box + Kabel", warranty:"Garansi toko 30 hari", location:"Semarang",
+      price:12999000, badge:"Best Seller", soldOut:false, photo:"",
+      desc:"Mulus 98%, tidak ada lecet berarti di frame maupun layar. Face ID, kamera, speaker, dan charging normal. Baterai sehat, iCloud sudah logout, IMEI terdaftar resmi." },
+    { id:"ip14p-dp-128", model:"iPhone 14 Pro", series:"iPhone 14", storage:"128 GB",
+      color:"Deep Purple", condition:"Like New", battery:"88%",
+      completeness:"Fullset Box", warranty:"Garansi toko 30 hari", location:"Semarang",
+      price:9299000, badge:"", soldOut:false, photo:"",
+      desc:"Layar ProMotion mulus tanpa shadow. Dynamic Island normal, kamera 48MP jernih. Body ada micro-scratch halus di sudut, tidak terlihat saat pakai case." },
+    { id:"ip13-mid-128", model:"iPhone 13", series:"iPhone 13", storage:"128 GB",
+      color:"Midnight", condition:"Good", battery:"87%",
+      completeness:"Unit + Kabel", warranty:"Garansi toko 14 hari", location:"Solo",
+      price:6499000, badge:"", soldOut:false, photo:"",
+      desc:"Unit harian yang sehat. Baterai original belum pernah ganti. Ada pemakaian wajar di frame, layar bersih tanpa dead pixel. Semua fungsi normal." },
+    { id:"ip12-blue-64", model:"iPhone 12", series:"iPhone 12", storage:"64 GB",
+      color:"Blue", condition:"Good", battery:"84%",
+      completeness:"Unit + Kabel", warranty:"Garansi toko 14 hari", location:"Semarang",
+      price:4299000, badge:"", soldOut:false, photo:"",
+      desc:"Pilihan paling worth it untuk masuk ekosistem Apple. Sinyal stabil, kamera normal, baterai masih aman untuk pemakaian sehari." },
+    { id:"ip11-white-128", model:"iPhone 11", series:"iPhone 11", storage:"128 GB",
+      color:"White", condition:"Good", battery:"81%",
+      completeness:"Unit + Kabel", warranty:"Garansi toko 14 hari", location:"Semarang",
+      price:3399000, badge:"", soldOut:true, photo:"",
+      desc:"Unit legendaris, baterai masih sehat. Cocok untuk HP kedua atau anak. Sudah dicek menyeluruh oleh teknisi kami." },
+    { id:"ipse3-mid-64", model:"iPhone SE 3", series:"iPhone SE", storage:"64 GB",
+      color:"Midnight", condition:"Like New", battery:"95%",
+      completeness:"Fullset Box", warranty:"Garansi toko 30 hari", location:"Kudus",
+      price:2999000, badge:"", soldOut:false, photo:"",
+      desc:"Chip A15 Bionic, performa kencang di body kompak. Tombol Home ID berfungsi normal. Layar dan bodi mulus." }
+  ]
+};
+
+/* =========================================================
+   UTIL
+   ========================================================= */
+const $  = (s, el) => (el || document).querySelector(s);
+const fmt = n => "Rp " + Number(n).toLocaleString("id-ID");
+const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const uid = () => Math.random().toString(36).slice(2, 9);
+
+/* =========================================================
+   ILUSTRASI iPhone (fallback)
+   ========================================================= */
+const DYNAMIC_ISLAND = ["iPhone 14 Pro","iPhone 14 Pro Max","iPhone 15","iPhone 15 Plus",
+  "iPhone 15 Pro","iPhone 15 Pro Max","iPhone 16","iPhone 16 Plus","iPhone 16 Pro",
+  "iPhone 16 Pro Max","iPhone 16e"];
+
+function hasIsland(model){
+  return DYNAMIC_ISLAND.some(m => model === m || model.indexOf(m + " ") === 0);
+}
+
+function phoneSVG(color, model){
+  const c = COLOR_MAP[color] || COLOR_MAP._default;
+  const id = "p" + uid();
+  const island = hasIsland(model);
+  return `<svg viewBox="0 0 200 380" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="width:100%;height:100%;display:block">
+    <defs>
+      <linearGradient id="${id}f" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="${c[0]}"/><stop offset=".5" stop-color="${c[0]}"/><stop offset="1" stop-color="${c[1]}"/>
+      </linearGradient>
+      <linearGradient id="${id}s" x1=".3" y1="0" x2=".7" y2="1">
+        <stop offset="0" stop-color="#1e2438"/><stop offset="1" stop-color="#06070b"/>
+      </linearGradient>
+    </defs>
+    <rect x="16" y="84" width="4" height="26" rx="2" fill="${c[1]}"/>
+    <rect x="16" y="122" width="4" height="42" rx="2" fill="${c[1]}"/>
+    <rect x="16" y="172" width="4" height="42" rx="2" fill="${c[1]}"/>
+    <rect x="180" y="126" width="4" height="58" rx="2" fill="${c[1]}"/>
+    <rect x="18" y="10" width="164" height="360" rx="42" fill="url(#${id}f)"/>
+    <rect x="25" y="17" width="150" height="346" rx="36" fill="#0a0a0f"/>
+    <rect x="29" y="21" width="142" height="338" rx="32" fill="url(#${id}s)"/>
+    ${island
+      ? '<rect x="78" y="38" width="44" height="15" rx="7.5" fill="#000"/>'
+      : '<rect x="74" y="36" width="52" height="17" rx="8.5" fill="#000"/>'}
+    <rect x="72" y="343" width="56" height="4" rx="2" fill="#fff" opacity=".38"/>
+  </svg>`;
+}
+
+/* Helper: pilih foto asli kalau ada, fallback ke SVG */
+function productMedia(p){
+  if (p.photo && p.photo.indexOf("data:image") === 0) {
+    return { hasPhoto: true, html: '<img src="' + esc(p.photo) + '" alt="' + esc(p.model) + '" loading="lazy">' };
+  }
+  return { hasPhoto: false, html: phoneSVG(p.color, p.model) };
+}
+
+/* =========================================================
+   STATE
+   ========================================================= */
+let data = null;
+let filter = { series: "Semua", cari: "" };
+let lastFocus = null;
+
+/* =========================================================
+   LOAD / NORMALIZE
+   ========================================================= */
+function normalize(d){
+  return {
+    version: 2,
+    updatedAt: d.updatedAt || Date.now(),
+    settings: Object.assign({}, DEFAULT_DATA.settings, d.settings || {}),
+    products: (d.products || []).map(function(p, i){
+      return {
+        id: p.id || ("p" + i + uid()),
+        model: p.model || "iPhone",
+        series: p.series || "iPhone",
+        storage: p.storage || "",
+        color: p.color || "",
+        condition: p.condition || "Good",
+        battery: p.battery || "",
+        completeness: p.completeness || "",
+        warranty: p.warranty || "",
+        location: p.location || "",
+        price: Number(p.price) || 0,
+        badge: p.badge || "",
+        soldOut: !!p.soldOut,
+        photo: (typeof p.photo === "string") ? p.photo : "",
+        desc: p.desc || ""
+      };
+    })
+  };
+}
+
+async function cloudLoad(){
+  if (!CLOUD.enabled || !CLOUD.url) return null;
+  try {
+    const res = await fetch(CLOUD.url.replace(/\/$/, "") + CLOUD.path + "?t=" + Date.now(), { cache: "no-store" });
+    if (!res.ok) return null;
+    const d = await res.json();
+    return (d && Array.isArray(d.products)) ? d : null;
+  } catch(e){ return null; }
+}
+
+async function loadData(){
+  const cloud = await cloudLoad();
+  if (cloud) {
+    try { localStorage.setItem(STORE_KEY, JSON.stringify(cloud)); } catch(e){}
+    return normalize(cloud);
+  }
+  try {
+    const raw = localStorage.getItem(STORE_KEY);
+    if (raw) {
+      const d = JSON.parse(raw);
+      if (d && Array.isArray(d.products)) return normalize(d);
+    }
+  } catch(e){}
+  return normalize(DEFAULT_DATA);
+}
+
+/* =========================================================
+   HELPERS
+   ========================================================= */
+function soldActive(){ return data.settings.soldOutFeature !== false; }
+function isSold(p){ return soldActive() && !!p.soldOut; }
+function waNum(){ return String(data.settings.waNumber || "").replace(/[^0-9]/g, ""); }
+function waLink(text){ return "https://wa.me/" + waNum() + "?text=" + encodeURIComponent(text); }
+
+function productWa(p){
+  const lines = [
+    "Halo " + (data.settings.storeName || "ZIEKAJA") + ", saya mau tanya unit ini:",
+    "",
+    "📱 *" + p.model + "*",
+    p.storage ? "• Storage: " + p.storage : "",
+    p.color ? "• Warna: " + p.color : "",
+    "• Kondisi: " + p.condition,
+    p.battery ? "• Baterai: " + p.battery : "",
+    "• Harga: " + fmt(p.price),
+    "",
+    "Apakah unit ini masih tersedia?"
+  ].filter(Boolean);
+  return waLink(lines.join("\n"));
+}
+
+function generalWa(){
+  return waLink("Halo " + (data.settings.storeName || "ZIEKAJA") + ", saya mau tanya-tanya soal stok iPhone yang tersedia.");
+}
+
+/* =========================================================
+   RENDER
+   ========================================================= */
+function renderChips(){
+  const seriesList = ["Semua"];
+  data.products.forEach(function(p){
+    if (seriesList.indexOf(p.series) < 0) seriesList.push(p.series);
+  });
+  const el = $("#chips");
+  el.innerHTML = seriesList.map(function(s){
+    return '<button class="chip' + (filter.series === s ? " on" : "") + '" data-s="' + esc(s) + '">' + esc(s) + "</button>";
+  }).join("");
+  Array.prototype.forEach.call(el.querySelectorAll(".chip"), function(b){
+    b.onclick = function(){
+      filter.series = b.getAttribute("data-s");
+      renderChips(); renderGrid();
+    };
+  });
+}
+
+function filtered(){
+  const q = filter.cari.trim().toLowerCase();
+  return data.products.filter(function(p){
+    const okS = filter.series === "Semua" || p.series === filter.series;
+    const hay = (p.model + " " + p.storage + " " + p.color + " " + p.series).toLowerCase();
+    const okQ = !q || hay.indexOf(q) > -1;
+    return okS && okQ;
+  }).sort(function(a, b){
+    return (isSold(a) ? 1 : 0) - (isSold(b) ? 1 : 0);
+  });
+}
+
+function renderGrid(){
+  const list = filtered();
+  const grid = $("#grid");
+  const avail = list.filter(function(p){ return !isSold(p); }).length;
+
+  $("#hasilInfo").textContent = list.length
+    ? list.length + " unit · " + avail + " tersedia"
+    : "Tidak ada unit yang cocok";
+
+  if (!list.length) {
+    grid.innerHTML =
+      '<div class="empty">' +
+        '<svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>' +
+        "<b>Tidak ketemu</b>Coba kata kunci atau seri lain." +
+      "</div>";
+    return;
+  }
+
+  grid.innerHTML = list.map(function(p, i){
+    const sold = isSold(p);
+    const media = productMedia(p);
+    return '<article class="card' + (sold ? " sold" : "") + '" data-id="' + esc(p.id) + '" style="--i:' + i + '"' +
+      (sold ? ' aria-disabled="true"' : ' tabindex="0" role="button" aria-label="Lihat ' + esc(p.model) + '"') + '>' +
+      '<div class="card-img' + (media.hasPhoto ? " has-photo" : "") + '">' +
+        (p.badge && !sold ? '<span class="badge">' + esc(p.badge) + "</span>" : "") +
+        '<span class="cond">' + esc(p.condition) + "</span>" +
+        media.html +
+        (sold ? '<div class="sold-overlay"><span>SOLD OUT</span></div>' : "") +
+      "</div>" +
+      '<div class="card-body">' +
+        '<span class="card-brand">' + esc(p.series) + "</span>" +
+        '<h3 class="card-name">' + esc(p.model) + "</h3>" +
+        '<span class="card-meta">' + esc([p.storage, p.color].filter(Boolean).join(" · ")) + "</span>" +
+        '<div class="card-price">' + fmt(p.price) + "</div>" +
+      "</div>" +
+    "</article>";
+  }).join("");
+}
+
+/* =========================================================
+   MODAL
+   ========================================================= */
+function openDetail(id){
+  const p = data.products.filter(function(x){ return x.id === id; })[0];
+  if (!p || isSold(p)) return;
+  lastFocus = document.activeElement;
+
+  const specs = [
+    ["Kondisi", p.condition],
+    ["Baterai", p.battery],
+    ["Kelengkapan", p.completeness],
+    ["Garansi", p.warranty],
+    ["Warna", p.color],
+    ["Storage", p.storage],
+    ["Lokasi", p.location]
+  ].filter(function(r){ return r[1]; });
+
+  const media = productMedia(p);
+
+  $("#modalBody").innerHTML =
+    '<div class="detail">' +
+      '<div class="detail-media' + (media.hasPhoto ? " has-photo" : "") + '">' + media.html + "</div>" +
+      '<div class="detail-info">' +
+        '<div class="detail-brandline">' +
+          '<span class="tag">' + esc(p.series) + "</span>" +
+          '<span class="tag ok">Tersedia</span>' +
+          (p.badge ? '<span class="tag">' + esc(p.badge) + "</span>" : "") +
+        "</div>" +
+        "<h2>" + esc(p.model) + "</h2>" +
+        '<div class="detail-price">' + fmt(p.price) + "</div>" +
+        (p.desc ? '<p class="detail-desc">' + esc(p.desc) + "</p>" : "") +
+        '<dl class="specs">' +
+          specs.map(function(r){
+            return '<div class="spec"><dt>' + esc(r[0]) + "</dt><dd>" + esc(r[1]) + "</dd></div>";
+          }).join("") +
+        "</dl>" +
+        '<div class="detail-cta">' +
+          '<a class="btn btn-wa" href="' + productWa(p) + '" target="_blank" rel="noopener">' +
+            '<svg class="wa-ico" viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm0 18a8 8 0 0 1-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1 1 12 20z"/></svg>' +
+            "Pesan via WhatsApp" +
+          "</a>" +
+          '<span class="detail-note">Tanyakan ketersediaan &amp; minta foto real unit sebelum deal.</span>' +
+        "</div>" +
+      "</div>" +
+    "</div>";
+
+  const modal = $("#modal");
+  modal.classList.add("open");
+  modal.setAttribute("aria-hidden", "false");
+  document.body.style.overflow = "hidden";
+  $("#modalClose").focus();
+}
+
+function closeDetail(){
+  const modal = $("#modal");
+  modal.classList.remove("open");
+  modal.setAttribute("aria-hidden", "true");
+  document.body.style.overflow = "";
+  if (lastFocus && lastFocus.focus) lastFocus.focus();
+}
+
+/* =========================================================
+   TOAST
+   ========================================================= */
+let toastTimer;
+function toast(msg){
+  const t = $("#toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function(){ t.classList.remove("show"); }, 2400);
+}
+
+/* =========================================================
+   TEMA
+   ========================================================= */
+function applyTheme(theme){
+  document.documentElement.setAttribute("data-theme", theme);
+  try { localStorage.setItem(THEME_KEY, theme); } catch(e){}
+}
+(function initTheme(){
+  let saved = null;
+  try { saved = localStorage.getItem(THEME_KEY); } catch(e){}
+  if (!saved) saved = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  applyTheme(saved);
+})();
+
+/* =========================================================
+   INIT
+   ========================================================= */
+async function boot(){
+  $("#tahun").textContent = new Date().getFullYear();
+  $("#heroPhone").innerHTML = phoneSVG("Natural Titanium", "iPhone 15 Pro Max");
+
+  data = await loadData();
+
+  $("#navWa").href = generalWa();
+  $("#heroWa").href = generalWa();
+  $("#footWa").href = generalWa();
+  $("#footIg").href = "https://instagram.com/" + (data.settings.instagram || "");
+
+  renderChips();
+  renderGrid();
+}
+
+document.addEventListener("click", function(e){
+  const card = e.target.closest(".card");
+  if (card) {
+    if (card.classList.contains("sold")) return;
+    openDetail(card.getAttribute("data-id"));
+  }
+});
+
+document.addEventListener("keydown", function(e){
+  if (e.key === "Escape" && $("#modal").classList.contains("open")) closeDetail();
+  if ((e.key === "Enter" || e.key === " ") && document.activeElement && document.activeElement.classList.contains("card")) {
+    e.preventDefault();
+    const card = document.activeElement;
+    if (!card.classList.contains("sold")) openDetail(card.getAttribute("data-id"));
+  }
+});
+
+$("#modalClose").onclick = closeDetail;
+$("#modal").addEventListener("click", function(e){ if (e.target === this) closeDetail(); });
+
+$("#themeBtn").onclick = function(){
+  const next = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
+  applyTheme(next);
+};
+
+$("#cari").addEventListener("input", function(e){
+  filter.cari = e.target.value;
+  renderGrid();
+});
+
+/* Auto-refresh dari cloud */
+if (CLOUD.enabled && CLOUD.url) {
+  setInterval(async function(){
+    if (document.hidden) return;
+    const d = await cloudLoad();
+    if (d && d.updatedAt !== data.updatedAt) {
+      data = normalize(d);
+      renderChips(); renderGrid();
+      toast("Katalog diperbarui");
+    }
+  }, 45000);
+}
+
+boot();
+})();
+</script>
+</body>
+</html>
