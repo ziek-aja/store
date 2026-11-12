@@ -639,9 +639,10 @@ h1,h2,h3{margin:0;line-height:1.2;letter-spacing:-.02em;font-weight:700}
    ⚙️  KONFIGURASI — HARUS SAMA dengan index.html
    ========================================================= */
 const CLOUD = {
-  enabled: false,
-  url: "",
-  path: "/ziekaja/store.json"
+  enabled: true,
+  url: "https://my-store-first-default-rtdb.asia-southeast1.firebasedatabase.app",
+  path: "/ziekaja/store.json",
+  adminKey: "ZIEKAJASTORE" // <--- TAMBAHKAN BARIS INI
 };
 
 const STORE_KEY = "ziekaja_store_v2";
@@ -836,7 +837,7 @@ async function cloudSave(d){
     const res = await fetch(CLOUD.url.replace(/\/$/, "") + CLOUD.path, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(d)
+      body: JSON.stringify(payload)
     });
     return res.ok;
   } catch(e){ return false; }
